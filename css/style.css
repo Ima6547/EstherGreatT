@@ -32,10 +32,11 @@ body {
 
 nav {
   padding: 20px;
-  background-color: lightblue;
   border-bottom: 2px solid darkblue;
-  border-radius: 8px ;
+  background-color: darkblue;
+  border-radius: 8px;
   box-shadow: 0 2px 6px gray;
+  text-align: center;
 }
 
 img {
@@ -69,19 +70,14 @@ ul li {
 
 .card {
   background-color: white;
-  padding: 30px;
+  width: 250px;
+  padding: 20px;
   border-radius: 8px;
   flex: 1;
-  box-shadow: 0 2px 8px lightgray;
+  box-shadow: 0 4px 10px lightgray;
   cursor: pointer;
   transition: transform 0.3s, background-color 0.3s;
-  border: 1px solid #ddd;
-}
-
-.services {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
+  border: 1px solid lightgray;
 }
 
 .card:hover {
@@ -94,7 +90,7 @@ h3 {
   color: darkblue;
 }
 
-,.card p {
+.card p {
   line-height: 1.6;
   color: #555;
 }
@@ -143,14 +139,6 @@ h3 {
   transform: translateY(-3px);
 }
 
-footer {
-  background-color: darkblue;
-  color: white;
-  text-align: center;
-  padding: 20px;
-  margin-top: 40px;
-}
-
 .contact-form {
   max-width: 700px;
   margin: 40px auto;
@@ -193,7 +181,7 @@ footer {
 .hero img {
   display: block;
   width: 100%;
-  max-width: 700;
+  max-width: 700px;
   margin: 20px auto;
   border-radius: 10px;
   box-shadow: 0 4px 10px lightgray;
@@ -211,14 +199,7 @@ footer {
   flex-wrap: wrap;
 }
 
-.card {
-  background-color: white;
-  width: 250px;
-  padding: 20px;
-  border: 1px solid lightgray;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px lightgray;
-}
+
 
 
 .card img {
@@ -228,12 +209,6 @@ footer {
   border-radius: 8px;
 }
 
-
-nav {
-  background-color: darkblue;
-  padding: 20px;
-  text-align: center;
-}
 
 nav a {
   color: white;
