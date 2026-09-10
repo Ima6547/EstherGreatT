@@ -246,12 +246,55 @@ footer {
   background-color: darkblue;
   color: white;
   text-align: center;
-  padding: 30px;
+  padding: 60px 30px 0;
   margin-top: 40px;
 }
 
-footer p {
-  margin: 10px;
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-bottom: 40px;
+  text-align: left;
+}
+
+.footer-col img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: contain;
+  background-color: white;
+  padding: 5px;
+  margin-bottom: 15px;
+}
+
+.footer-col h4 {
+  color: white;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+}
+
+.footer-col p {
+  color: lightgray;
+  margin: 8px 0;
+  padding: 0;
+  max-width: none;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 20px 30px;
+  text-align: center;
+}
+
+.footer-bottom p {
+  color: lightgray;
+  margin: 0;
+  padding: 0;
 }
 
 
@@ -313,11 +356,12 @@ footer p {
 footer a {
   color: white;
   text-decoration: none;
-  margin: 0 5px;
+  transition: color 0.3s;
 }
 
 footer a:hover {
   color: lightblue;
+  padding-left: 3px;
 }
 
 
