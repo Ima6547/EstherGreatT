@@ -15,7 +15,6 @@ p {
 
 a {
   color: darkblue;
-  margin-right: 20px;
   text-decoration: none;
   cursor: pointer;
 }
@@ -30,13 +29,48 @@ body {
   padding: 20px;
 }
 
-nav {
-  padding: 20px;
-  border-bottom: 2px solid darkblue;
+.navbar-esther {
   background-color: darkblue;
-  border-radius: 8px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 2px 6px gray;
-  text-align: center;
+  padding: 10px 0;
+}
+
+.navbar-esther .navbar-brand {
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.navbar-esther .navbar-brand:hover {
+  color: white;
+}
+
+.navbar-esther .navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.navbar-esther .navbar-toggler:focus {
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
+}
+
+.navbar-esther .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255,255,255,0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+.navbar-esther .nav-link {
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.navbar-esther .nav-link:hover {
+  color: white;
+}
+
+.navbar-esther .nav-link.active {
+  color: #ffd166;
+  font-weight: bold;
 }
 
 img {
@@ -199,6 +233,11 @@ h3 {
   flex-wrap: wrap;
 }
 
+.services-cta {
+  text-align: center;
+  margin-top: 30px;
+}
+
 
 
 
@@ -207,23 +246,6 @@ h3 {
   height: 150px;
   object-fit: cover;
   border-radius: 8px;
-}
-
-
-nav a {
-  color: white;
-  text-decoration: none;
-  margin-right: 20px;
-  font-weight: bold;
-  transition: color 0.3s;
-}
-
-nav a:hover {
-  color: lightblue;
-}
-
-nav a.active {
-  color: yellow;
 }
 
 .site-header {
@@ -295,6 +317,33 @@ footer {
   color: lightgray;
   margin: 0;
   padding: 0;
+  max-width: none;
+}
+
+.footer-socials {
+  display: flex;
+  gap: 12px;
+  margin-top: 5px;
+}
+
+.footer-socials a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.12);
+  color: white;
+  font-size: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.footer-socials a:hover {
+  background-color: royalblue;
+  color: white;
+  transform: translateY(-3px);
 }
 
 
@@ -316,11 +365,6 @@ footer {
 
 
 @media (max-width: 600px) {
-   
-  nav a {
-    display: block;
-    margin: 10px 0;
-  }
 
   .services {
     flex-direction: column;
@@ -339,7 +383,8 @@ footer {
 
 
 .faq {
-  padding: 40px;
+  background-color: #eef2f8;
+  padding: 60px 20px;
 }
 
 .faq h2 {
@@ -348,8 +393,42 @@ footer {
   margin-bottom: 30px;
 }
 
-.faq .card {
-  margin-bottom: 20px;
+.faq .container {
+  max-width: 800px;
+}
+
+.faq .accordion-item {
+  border: 1px solid #e0e6f0;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 139, 0.06);
+}
+
+.faq .accordion-button {
+  font-weight: bold;
+  color: darkblue;
+  background-color: white;
+  padding: 18px 20px;
+}
+
+.faq .accordion-button:not(.collapsed) {
+  background-color: #f5f9ff;
+  color: darkblue;
+  box-shadow: none;
+}
+
+.faq .accordion-button:not(.collapsed)::after {
+  filter: hue-rotate(180deg);
+}
+
+.faq .accordion-button:focus {
+  box-shadow: 0 0 0 3px rgba(0, 0, 139, 0.15);
+}
+
+.faq .accordion-body {
+  color: #555;
+  line-height: 1.6;
 }
 
 
@@ -361,7 +440,6 @@ footer a {
 
 footer a:hover {
   color: lightblue;
-  padding-left: 3px;
 }
 
 
