@@ -383,7 +383,7 @@ footer {
 
 
 .faq {
-  padding: 40px;
+  padding: 60px 20px;
 }
 
 .faq h2 {
@@ -392,8 +392,42 @@ footer {
   margin-bottom: 30px;
 }
 
-.faq .card {
-  margin-bottom: 20px;
+.faq .container {
+  max-width: 800px;
+}
+
+.faq .accordion-item {
+  border: 1px solid #e0e6f0;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 139, 0.06);
+}
+
+.faq .accordion-button {
+  font-weight: bold;
+  color: darkblue;
+  background-color: white;
+  padding: 18px 20px;
+}
+
+.faq .accordion-button:not(.collapsed) {
+  background-color: #f5f9ff;
+  color: darkblue;
+  box-shadow: none;
+}
+
+.faq .accordion-button:not(.collapsed)::after {
+  filter: hue-rotate(180deg);
+}
+
+.faq .accordion-button:focus {
+  box-shadow: 0 0 0 3px rgba(0, 0, 139, 0.15);
+}
+
+.faq .accordion-body {
+  color: #555;
+  line-height: 1.6;
 }
 
 
