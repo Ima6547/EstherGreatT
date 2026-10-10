@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard | EstherGreat Travels</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f3f6fa;
+            color: #243047;
+        }
+
+        header {
+            background: #102a43;
+            color: white;
+            padding: 22px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 25px;
+        }
+
+        header p {
+            margin-bottom: 0;
+            color: #d9e2ec;
+        }
+
+        .container {
+            width: 94%;
+            max-width: 1000px;
+            margin: 30px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 24px;
+            margin-bottom: 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #102a43;
+        }
+
+        label {
+            display: block;
+            margin: 15px 0 7px;
+            font-weight: bold;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccd5df;
+            border-radius: 7px;
+            font-size: 15px;
+            font-family: inherit;
+        }
+
+        textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+        button {
+            border: none;
+            border-radius: 7px;
+            padding: 11px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            margin: 5px 5px 5px 0;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .primary {
+            background: #087f8c;
+            color: white;
+        }
+
+        .primary:hover {
+            background: #066873;
+        }
+
+        .secondary {
+            background: #e5edf5;
+            color: #243b53;
+        }
+
+        .danger {
+            background: #c0392b;
+            color: white;
+        }
+
+        .logout {
+            background: #c0392b;
+            color: white;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .message {
+            margin-top: 14px;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+        }
+
+        .note {
+            color: #52606d;
+            line-height: 1.6;
+        }
+
+        .top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .job-card {
+            border: 1px solid #d9e2ec;
+            border-radius: 9px;
+            padding: 18px;
+            margin-top: 15px;
+        }
+
+        .job-card h3 {
+            margin-top: 0;
+            color: #102a43;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .published {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .unpublished {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0 18px;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .checkbox-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .checkbox-row input {
+            width: auto;
+        }
+
+        .checkbox-row label {
+            margin: 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 24px;
+            color: #627d98;
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: auto;
+            }
+
+            .card {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>EstherGreat Travels</h1>
+    <p>Private Job Management Dashboard</p>
+</header>
+
+<main class="container">
+
+    <!-- LOGIN -->
+    <section class="card" id="login-section">
+        <h2>Administrator Login</h2>
+
+        <p class="note">
+            Sign in using the administrator account you created in Supabase.
+        </p>
+
+        <form id="login-form">
+            <label for="email">Email Address</label>
+            <input
+                type="email"
+                id="email"
+                autocomplete="username"
+                required
+            >
+
+            <label for="password">Password</label>
+            <input
+                type="password"
+                id="password"
+                autocomplete="current-password"
+                required
+            >
+
+            <button type="submit" class="primary" id="login-button">
+                Log In
+            </button>
+        </form>
+
+        <p id="login-message" class="message" role="status"></p>
+    </section>
+
+    <!-- ADMIN DASHBOARD -->
+    <section id="dashboard-section" class="hidden">
+
+        <div class="card">
+            <div class="top-row">
+                <div>
+                    <h2>Welcome, Administrator!</h2>
+                    <p class="note">
+                        Add and manage your international job vacancies.
+                    </p>
+                </div>
+
+                <button type="button" class="logout" id="logout-button">
+                    Log Out
+                </button>
+            </div>
+
+            <p id="dashboard-message" class="message" role="status"></p>
+        </div>
+
+        <!-- ADD OR EDIT JOB -->
+        <section class="card">
+            <h2 id="form-heading">Add a New Job</h2>
+
+            <p class="note">
+                Enter accurate vacancy information. Only publish listings
+                that you have verified.
+            </p>
+
+            <form id="job-form">
+
+                <div class="form-grid">
+
+                    <div>
+                        <label for="title">Job Title *</label>
+                        <input id="title" name="title" required maxlength="200">
+                    </div>
+
+                    <div>
+                        <label for="country">Country *</label>
+                        <input id="country" name="country" required maxlength="100">
+                    </div>
+
+                    <div>
+                        <label for="location">City or Location</label>
+                        <input id="location" name="location" maxlength="200">
+                    </div>
+
+                    <div>
+                        <label for="salary">Salary</label>
+                        <input id="salary" name="salary" maxlength="150">
+                    </div>
+
+                    <div>
+                        <label for="employment_type">Employment Type</label>
+                        <select id="employment_type" name="employment_type">
+                            <option value="">Select employment type</option>
+                            <option value="Full-time">Full-time</option>
+                            <option value="Part-time">Part-time</option>
+                            <option value="Contract">Contract</option>
+                            <option value="Temporary">Temporary</option>
+                            <option value="Seasonal">Seasonal</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="expires_at">Closing Date</label>
+                        <input type="date" id="expires_at" name="expires_at">
+                    </div>
+
+                    <div class="full-width">
+                        <label for="description">Job Description *</label>
+                        <textarea
+                            id="description"
+                            name="description"
+                            required
+                        ></textarea>
+                    </div>
+
+                    <div class="full-width">
+                        <label for="requirements">Requirements</label>
+                        <textarea
+                            id="requirements"
+                            name="requirements"
+                        ></textarea>
+                    </div>
+
+                    <div class="full-width">
+                        <label for="application_details">
+                            Application Details
+                        </label>
+                        <textarea
+                            id="application_details"
+                            name="application_details"
+                        ></textarea>
+                    </div>
+
+                </div>
+
+                <div class="checkbox-row">
+                    <input type="checkbox" id="is_published">
+                    <label for="is_published">
+                        Publish this job on the public website
+                    </label>
+                </div>
+
+                <p class="note">
+                    Leave this unchecked to save the job as a draft.
+                </p>
+
+                <button type="submit" class="primary" id="save-job-button">
+                    Save Job
+                </button>
+
+                <button
+                    type="button"
+                    class="secondary hidden"
+                    id="cancel-edit-button"
+                >
+                    Cancel Editing
+                </button>
+
+                <p id="form-message" class="message" role="status"></p>
+
+            </form>
+        </section>
+
+        <!-- EXISTING JOBS -->
+        <section class="card">
+            <div class="top-row">
+                <h2>Manage Existing Jobs</h2>
+
+                <button type="button" class="secondary" id="refresh-button">
+                    Refresh Jobs
+                </button>
+            </div>
+
+            <p class="note">
+                Edit, publish, unpublish, or delete a listing below.
+            </p>
+
+            <div id="jobs-list">
+                <p class="note">Loading jobs...</p>
+            </div>
+        </section>
+
+    </section>
+
+</main>
+
+<footer>
+    &copy; 2026 EstherGreat Travels. All rights reserved.
+</footer>
+
+<script>
+    // Supabase connection details
+    const SUPABASE_URL = "https://lsawpfleyynbvxwbtmvf.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_hSiU4I_V8VIsP2us3mt4HA_DM0k_w1C";
+
+    const loginSection = document.getElementById("login-section");
+    const dashboardSection = document.getElementById("dashboard-section");
+    const loginForm = document.getElementById("login-form");
+    const loginMessage = document.getElementById("login-message");
+    const dashboardMessage = document.getElementById("dashboard-message");
+    const jobForm = document.getElementById("job-form");
+    const formMessage = document.getElementById("form-message");
+    const jobsList = document.getElementById("jobs-list");
+
+    let supabaseClient = null;
+    let editingJobId = null;
+    let currentUser = null;
+
+    if (
+        window.supabase &&
+        SUPABASE_URL.startsWith("https://") &&
+        SUPABASE_URL.endsWith(".supabase.co") &&
+        !SUPABASE_URL.includes("PASTE_") &&
+        SUPABASE_PUBLISHABLE_KEY.trim() !== "" &&
+        !SUPABASE_PUBLISHABLE_KEY.includes("PASTE_")
+    ) {
+        supabaseClient = window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_PUBLISHABLE_KEY
+        );
+    } else {
+        loginMessage.textContent =
+            "Setup required: check your Supabase Project URL and Publishable key.";
+    }
+
+    function setMessage(element, message) {
+        element.textContent = message;
+    }
+
+    function addTextElement(parent, tag, text, className = "") {
+        const element = document.createElement(tag);
+        element.textContent = text;
+
+        if (className) {
+            element.className = className;
+        }
+
+        parent.appendChild(element);
+        return element;
+    }
+
+    function addButton(parent, text, className, handler) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = text;
+        button.className = className;
+
+        button.addEventListener("click", handler);
+        parent.appendChild(button);
+
+        return button;
+    }
+
+    async function checkAdministrator(user) {
+        const { data, error } = await supabaseClient
+            .from("job_admins")
+            .select("user_id")
+            .eq("user_id", user.id)
+            .maybeSingle();
+
+        if (error) {
+            console.error("Administrator check failed:", error);
+
+            throw new Error(
+                "We could not verify administrator permissions. " +
+                "Please check the job_admins table permissions and try again."
+            );
+        }
+
+        if (!data) {
+            throw new Error(
+                "Your account can sign in, but it is not registered " +
+                "as an administrator."
+            );
+        }
+    }
+
+    async function showDashboard(user) {
+        currentUser = user;
+
+        loginSection.classList.add("hidden");
+        dashboardSection.classList.remove("hidden");
+
+        setMessage(dashboardMessage, "Checking administrator permissions...");
+
+        try {
+            await checkAdministrator(user);
+            setMessage(dashboardMessage, "Administrator verified.");
+            await loadJobs();
+        } catch (error) {
+            currentUser = null;
+
+            dashboardSection.classList.add("hidden");
+            loginSection.classList.remove("hidden");
+
+            setMessage(loginMessage, error.message);
+
+            await supabaseClient.auth.signOut();
+        }
+    }
+
+    async function restoreSession() {
+        if (!supabaseClient) {
+            return;
+        }
+
+        const { data, error } = await supabaseClient.auth.getSession();
+
+        if (error) {
+            setMessage(loginMessage, error.message);
+            return;
+        }
+
+        if (data.session) {
+            await showDashboard(data.session.user);
+        }
+    }
+
+    loginForm.addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        if (!supabaseClient) {
+            setMessage(
+                loginMessage,
+                "Please check your Supabase Project URL and Publishable key."
+            );
+            return;
+        }
+
+        const loginButton = document.getElementById("login-button");
+        loginButton.disabled = true;
+
+        setMessage(loginMessage, "Signing in...");
+
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+
+        try {
+            const { data, error } = await supabaseClient.auth.signInWithPassword({
+                email,
+                password
+            });
+
+            if (error) {
+                throw error;
+            }
+
+            await showDashboard(data.user);
+        } catch (error) {
+            setMessage(loginMessage, "Login failed: " + error.message);
+        } finally {
+            loginButton.disabled = false;
+        }
+    });
+
+    async function loadJobs() {
+        jobsList.replaceChildren();
+        addTextElement(jobsList, "p", "Loading jobs...", "note");
+
+        const { data, error } = await supabaseClient
+            .from("jobs")
+            .select("*")
+            .order("created_at", { ascending: false });
+
+        if (error) {
+            jobsList.replaceChildren();
+
+            addTextElement(
+                jobsList,
+                "p",
+                "Could not load jobs: " + error.message,
+                "message"
+            );
+
+            return;
+        }
+
+        jobsList.replaceChildren();
+
+        if (!data || data.length === 0) {
+            addTextElement(
+                jobsList,
+                "p",
+                "No jobs have been added yet. Use the form above to create your first listing.",
+                "note"
+            );
+
+            return;
+        }
+
+        data.forEach(function(job) {
+            const card = document.createElement("article");
+            card.className = "job-card";
+
+            addTextElement(card, "h3", job.title);
+            addTextElement(
+                card,
+                "p",
+                "Country: " + job.country
+            );
+
+            if (job.location) {
+                addTextElement(card, "p", "Location: " + job.location);
+            }
+
+            if (job.salary) {
+                addTextElement(card, "p", "Salary: " + job.salary);
+            }
+
+            if (job.employment_type) {
+                addTextElement(
+                    card,
+                    "p",
+                    "Employment: " + job.employment_type
+                );
+            }
+
+            const status = document.createElement("span");
+            status.className = job.is_published
+                ? "status published"
+                : "status unpublished";
+
+            status.textContent = job.is_published
+                ? "Published"
+                : "Draft / Unpublished";
+
+            card.appendChild(status);
+
+            addTextElement(
+                card,
+                "p",
+                "Description: " + job.description
+            );
+
+            addButton(card, "Edit", "secondary", function() {
+                startEditing(job);
+            });
+
+            addButton(
+                card,
+                job.is_published ? "Unpublish" : "Publish",
+                "primary",
+                function() {
+                    togglePublished(job);
+                }
+            );
+
+            addButton(card, "Delete", "danger", function() {
+                deleteJob(job);
+            });
+
+            jobsList.appendChild(card);
+        });
+    }
+
+    function startEditing(job) {
+        editingJobId = job.id;
+
+        document.getElementById("title").value = job.title || "";
+        document.getElementById("country").value = job.country || "";
+        document.getElementById("location").value = job.location || "";
+        document.getElementById("salary").value = job.salary || "";
+        document.getElementById("employment_type").value =
+            job.employment_type || "";
+        document.getElementById("description").value =
+            job.description || "";
+        document.getElementById("requirements").value =
+            job.requirements || "";
+        document.getElementById("application_details").value =
+            job.application_details || "";
+        document.getElementById("expires_at").value =
+            job.expires_at || "";
+        document.getElementById("is_published").checked =
+            job.is_published === true;
+
+        document.getElementById("form-heading").textContent = "Edit Job";
+        document.getElementById("save-job-button").textContent = "Update Job";
+        document.getElementById("cancel-edit-button").classList.remove("hidden");
+
+        setMessage(formMessage, "Editing: " + job.title);
+
+        document.getElementById("form-heading").scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+    }
+
+    function resetJobForm() {
+        editingJobId = null;
+        jobForm.reset();
+
+        document.getElementById("form-heading").textContent = "Add a New Job";
+        document.getElementById("save-job-button").textContent = "Save Job";
+        document.getElementById("cancel-edit-button").classList.add("hidden");
+
+        setMessage(formMessage, "");
+    }
+
+    document.getElementById("cancel-edit-button").addEventListener(
+        "click",
+        resetJobForm
+    );
+
+    jobForm.addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        if (!currentUser || !supabaseClient) {
+            setMessage(formMessage, "Please sign in as an administrator.");
+            return;
+        }
+
+        const saveButton = document.getElementById("save-job-button");
+        saveButton.disabled = true;
+
+        setMessage(formMessage, "Saving job...");
+
+        const job = {
+            title: document.getElementById("title").value.trim(),
+            country: document.getElementById("country").value.trim(),
+            location: document.getElementById("location").value.trim() || null,
+            salary: document.getElementById("salary").value.trim() || null,
+            employment_type:
+                document.getElementById("employment_type").value || null,
+            description:
+                document.getElementById("description").value.trim(),
+            requirements:
+                document.getElementById("requirements").value.trim() || null,
+            application_details:
+                document.getElementById("application_details").value.trim() || null,
+            expires_at:
+                document.getElementById("expires_at").value || null,
+            is_published:
+                document.getElementById("is_published").checked
+        };
+
+        try {
+            // Recheck authorization before every write operation.
+            await checkAdministrator(currentUser);
+
+            let result;
+
+            if (editingJobId) {
+                result = await supabaseClient
+                    .from("jobs")
+                    .update(job)
+                    .eq("id", editingJobId)
+                    .select();
+            } else {
+                result = await supabaseClient
+                    .from("jobs")
+                    .insert([job])
+                    .select();
+            }
+
+            if (result.error) {
+                throw result.error;
+            }
+
+            if (!result.data || result.data.length === 0) {
+                throw new Error(
+                    "No job was returned. Check your database permissions."
+                );
+            }
+
+            setMessage(
+                formMessage,
+                editingJobId
+                    ? "Job updated successfully!"
+                    : "Job added successfully!"
+            );
+
+            resetJobForm();
+            await loadJobs();
+
+        } catch (error) {
+            setMessage(formMessage, "Could not save job: " + error.message);
+        } finally {
+            saveButton.disabled = false;
+        }
+    });
+
+    async function togglePublished(job) {
+        if (!currentUser) {
+            return;
+        }
+
+        const newStatus = !job.is_published;
+
+        const confirmation = newStatus
+            ? "Publish this job so the public can see it?"
+            : "Unpublish this job?";
+
+        if (!window.confirm(confirmation)) {
+            return;
+        }
+
+        try {
+            await checkAdministrator(currentUser);
+
+            const { error } = await supabaseClient
+                .from("jobs")
+                .update({ is_published: newStatus })
+                .eq("id", job.id);
+
+            if (error) {
+                throw error;
+            }
+
+            setMessage(
+                dashboardMessage,
+                newStatus ? "Job published." : "Job unpublished."
+            );
+
+            await loadJobs();
+
+        } catch (error) {
+            setMessage(
+                dashboardMessage,
+                "Could not change publication status: " + error.message
+            );
+        }
+    }
+
+    async function deleteJob(job) {
+        if (!currentUser) {
+            return;
+        }
+
+        if (!window.confirm(
+            'Are you sure you want to delete "' + job.title + '"? This cannot be undone.'
+        )) {
+            return;
+        }
+
+        try {
+            await checkAdministrator(currentUser);
+
+            const { error } = await supabaseClient
+                .from("jobs")
+                .delete()
+                .eq("id", job.id);
+
+            if (error) {
+                throw error;
+            }
+
+            setMessage(dashboardMessage, "Job deleted successfully.");
+            await loadJobs();
+
+        } catch (error) {
+            setMessage(
+                dashboardMessage,
+                "Could not delete job: " + error.message
+            );
+        }
+    }
+
+    document.getElementById("refresh-button").addEventListener(
+        "click",
+        loadJobs
+    );
+
+    document.getElementById("logout-button").addEventListener(
+        "click",
+        async function() {
+            const { error } = await supabaseClient.auth.signOut();
+
+            if (error) {
+                setMessage(dashboardMessage, error.message);
+                return;
+            }
+
+            currentUser = null;
+            dashboardSection.classList.add("hidden");
+            loginSection.classList.remove("hidden");
+
+            resetJobForm();
+
+            setMessage(loginMessage, "You have logged out.");
+        }
+    );
+
+    if (supabaseClient) {
+        restoreSession();
+    }
+</script>
+
+</body>
+</html>
