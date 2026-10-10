@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | EstherGreat Travels</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #243047;
+        }
+
+        .header {
+            background: #102a43;
+            color: white;
+            padding: 22px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 25px;
+        }
+
+        .header p {
+            margin-bottom: 0;
+            color: #d9e2ec;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 650px;
+            margin: 35px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.07);
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        label {
+            display: block;
+            margin-top: 16px;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccd5df;
+            border-radius: 7px;
+            font-size: 16px;
+        }
+
+        button {
+            border: none;
+            border-radius: 7px;
+            padding: 12px 18px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .primary-button {
+            background: #087f8c;
+            color: white;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .primary-button:hover {
+            background: #066873;
+        }
+
+        .secondary-button {
+            background: #d64545;
+            color: white;
+        }
+
+        .message {
+            margin-top: 16px;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .dashboard-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .note {
+            color: #52606d;
+            line-height: 1.6;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #627d98;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <h1>EstherGreat Travels</h1>
+        <p>Private Job Management Dashboard</p>
+    </header>
+
+    <main class="container">
+
+        <section class="card" id="login-section">
+            <h2>Administrator Login</h2>
+
+            <p class="note">
+                Sign in with the administrator email and password
+                you created in Supabase.
+            </p>
+
+            <form id="login-form">
+                <label for="email">Email Address</label>
+                <input
+                    type="email"
+                    id="email"
+                    autocomplete="username"
+                    required
+                >
+
+                <label for="password">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    autocomplete="current-password"
+                    required
+                >
+
+                <button type="submit" class="primary-button">
+                    Log In
+                </button>
+            </form>
+
+            <p id="login-message" class="message" role="status"></p>
+        </section>
+
+        <section class="card hidden" id="dashboard-section">
+            <div class="dashboard-top">
+                <div>
+                    <h2>Welcome, Administrator!</h2>
+                    <p class="note">You are signed in.</p>
+                </div>
+
+                <button id="logout-button" class="secondary-button">
+                    Log Out
+                </button>
+            </div>
+
+            <h3>Job Management</h3>
+
+            <p class="note">
+                Your dashboard is connected to the login system.
+                We'll add the form for creating, editing, publishing,
+                and deleting job vacancies next.
+            </p>
+
+            <p id="dashboard-message" class="message" role="status"></p>
+        </section>
+
+    </main>
+
+    <footer>
+        &copy; 2026 EstherGreat Travels. All rights reserved.
+    </footer>
+
+    <script>
+        // We will insert your Supabase connection details here.
+        const SUPABASE_URL = "https://lsawpfleyynbvxwbtmvf.supabase.co";
+        const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_hSiU4I_V8VIsP2us3mt4HA_DM0k_w1C";
+
+        const loginSection = document.getElementById("login-section");
+        const dashboardSection = document.getElementById("dashboard-section");
+        const loginForm = document.getElementById("login-form");
+        const loginMessage = document.getElementById("login-message");
+        const dashboardMessage = document.getElementById("dashboard-message");
+
+        let supabaseClient = null;
+
+        if (
+            window.supabase &&
+            SUPABASE_URL.startsWith("https://") &&
+            SUPABASE_URL.endsWith(".supabase.co") &&
+            !SUPABASE_URL.includes("PASTE_") &&
+            !SUPABASE_PUBLISHABLE_KEY.includes("PASTE_") &&
+            SUPABASE_PUBLISHABLE_KEY.trim() !== ""
+        ) {
+            supabaseClient = window.supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_PUBLISHABLE_KEY
+            );
+        } else {
+            loginMessage.textContent =
+                "Setup needed: enter your Supabase Project URL and Publishable key in the code.";
+        }
+
+        async function showCorrectSection() {
+            if (!supabaseClient) {
+                return;
+            }
+
+            const { data, error } = await supabaseClient.auth.getSession();
+
+            if (error) {
+                loginMessage.textContent = error.message;
+                return;
+            }
+
+            if (data.session) {
+                loginSection.classList.add("hidden");
+                dashboardSection.classList.remove("hidden");
+                dashboardMessage.textContent =
+                    "Signed in. Checking administrator permissions will be added next.";
+            } else {
+                loginSection.classList.remove("hidden");
+                dashboardSection.classList.add("hidden");
+            }
+        }
+
+        loginForm.addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            if (!supabaseClient) {
+                loginMessage.textContent =
+                    "Please add your Supabase Project URL and Publishable key first.";
+                return;
+            }
+
+            loginMessage.textContent = "Signing in...";
+
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value;
+
+            const { error } = await supabaseClient.auth.signInWithPassword({
+                email: email,
+                password: password
+            });
+
+            if (error) {
+                loginMessage.textContent =
+                    "Login failed: " + error.message;
+                return;
+            }
+
+            loginMessage.textContent = "";
+            await showCorrectSection();
+        });
+
+        document.getElementById("logout-button").addEventListener(
+            "click",
+            async function () {
+                if (!supabaseClient) {
+                    return;
+                }
+
+                const { error } = await supabaseClient.auth.signOut();
+
+                if (error) {
+                    dashboardMessage.textContent = error.message;
+                    return;
+                }
+
+                loginMessage.textContent = "You have logged out.";
+                await showCorrectSection();
+            }
+        );
+
+        if (supabaseClient) {
+            showCorrectSection();
+        }
+    </script>
+
+</body>
+</html>

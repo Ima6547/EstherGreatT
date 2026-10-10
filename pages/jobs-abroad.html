@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Jobs Abroad | EstherGreat Travels</title>
+
+    <meta name="description" content="Explore international job opportunities with EstherGreat Travels. Contact us for information about available positions abroad.">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+
+    <style>
+        .jobs-hero {
+            background: linear-gradient(135deg, #102a43, #176b87);
+            color: white;
+            padding: 85px 20px;
+            text-align: center;
+        }
+
+        .jobs-hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .jobs-hero p {
+            max-width: 700px;
+            margin: 0 auto 25px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .jobs-section {
+            padding: 65px 0;
+            background: #f7f9fc;
+        }
+
+        .job-card {
+            height: 100%;
+            background: white;
+            border: 1px solid #e5eaf0;
+            border-radius: 14px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.09);
+        }
+
+        .job-icon {
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #e6f4f7;
+            color: #176b87;
+            border-radius: 12px;
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+        }
+
+        .job-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .job-meta {
+            color: #637381;
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+        }
+
+        .job-status {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            background: #fff3cd;
+            color: #795600;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .job-details {
+            display: none;
+            border-top: 1px solid #e5eaf0;
+            margin-top: 18px;
+            padding-top: 18px;
+        }
+
+        .job-details.show {
+            display: block;
+        }
+
+        .btn-jobs {
+            background: #176b87;
+            color: white;
+            border: none;
+            padding: 11px 18px;
+            border-radius: 7px;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-jobs:hover {
+            background: #102a43;
+            color: white;
+        }
+
+        .jobs-notice {
+            background: #fff8e7;
+            border: 1px solid #f0d99a;
+            border-radius: 10px;
+            padding: 18px;
+            color: #654f18;
+            margin-bottom: 30px;
+        }
+
+        .jobs-cta {
+            padding: 60px 20px;
+            text-align: center;
+            background: white;
+        }
+
+        @media (max-width: 576px) {
+            .jobs-hero {
+                padding: 60px 18px;
+            }
+
+            .job-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="../index.html">
+                <img src="../assets/images/logo.jpg"
+                     alt="EstherGreat Travels logo"
+                     style="height: 48px; width: auto;">
+                EstherGreat Travels
+            </a>
+
+            <button class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#jobsNavbar"
+                    aria-controls="jobsNavbar"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="jobsNavbar">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html">Home</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About Us</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="visa-support.html">Visa Support Services</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link active" href="jobs-abroad.html">Jobs Abroad</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="jobs-hero">
+        <div class="container">
+            <h1>Explore Job Opportunities Abroad</h1>
+
+            <p>
+                Looking to take your career beyond borders?
+                Explore international employment information and contact
+                EstherGreat Travels for assistance.
+            </p>
+
+            <a href="#job-listings" class="btn btn-light btn-lg">
+                Explore Opportunities
+                <i class="bi bi-arrow-down-circle ms-2"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Job Listings -->
+<section class="jobs-section" id="job-listings">
+    <div class="container">
+
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Job Opportunities</h2>
+            <p class="text-muted">
+                Explore available international job opportunities.
+            </p>
+        </div>
+
+        <div class="jobs-notice">
+            <i class="bi bi-info-circle-fill me-2"></i>
+            <strong>Important:</strong>
+            Please verify job details and eligibility before applying.
+        </div>
+
+        <div class="row g-4" id="supabase-jobs">
+            <div class="col-12 text-center">
+                Loading available jobs...
+            </div>
+        </div>
+
+    </div>
+</section>
+
+                
+
+    <!-- Contact Section -->
+    <section class="jobs-cta">
+        <div class="container">
+            <h2 class="fw-bold mb-3">Looking for an Opportunity Abroad?</h2>
+
+            <p class="text-muted mb-4">
+                Contact EstherGreat Travels to ask about verified job
+                opportunities and available assistance.
+            </p>
+
+            <a href="https://wa.me/380993035879?text=Hello%20EstherGreat%20Travels%2C%20I%20would%20like%20to%20enquire%20about%20job%20opportunities%20abroad."
+               class="btn-jobs"
+               target="_blank"
+               rel="noopener noreferrer">
+                <i class="bi bi-whatsapp me-2"></i>
+                Enquire on WhatsApp
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center py-4 bg-dark text-white">
+        <div class="container">
+            <p class="mb-1">
+                &copy; <span id="currentYear"></span> EstherGreat Travels.
+                All rights reserved.
+            </p>
+
+            <a href="../index.html" class="text-white text-decoration-none">
+                Return to Homepage
+            </a>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+    // Update the footer year
+    document.getElementById("currentYear").textContent =
+        new Date().getFullYear();
+
+    // Supabase connection
+    const SUPABASE_URL = "https://lsawpfleyynbvxwbtmvf.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_hSiU4I_V8VIsP2us3mt4HA_DM0k_w1C";
+
+    const supabaseClient = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+    );
+
+    async function loadJobs() {
+        const jobsContainer = document.getElementById("supabase-jobs");
+
+        try {
+            const { data: jobs, error } = await supabaseClient
+                .from("jobs")
+                .select("*")
+                .eq("is_published", true)
+                .order("created_at", { ascending: false });
+
+            if (error) throw error;
+
+            jobsContainer.innerHTML = "";
+
+            if (!jobs || jobs.length === 0) {
+                jobsContainer.textContent =
+                    "There are no available jobs at the moment.";
+                return;
+            }
+
+
+            jobs.forEach((job) => {
+                const card = document.createElement("div");
+                card.className = "col-md-6 col-lg-4";
+
+                const title = document.createElement("h4");
+                title.textContent = job.title || "Job Opportunity";
+
+                const location = document.createElement("p");
+                location.textContent =
+                    "Location: " + (job.location || job.country || "Not specified");
+
+                const salary = document.createElement("p");
+                salary.textContent =
+                    "Salary: " + (job.salary || "Contact us for details");
+
+                const type = document.createElement("p");
+                type.textContent =
+                    "Employment: " + (job.employment_type || "Not specified");
+
+                const description = document.createElement("p");
+                description.textContent =
+                    job.description || "Contact us for more information.";
+
+                const details = document.createElement("div");
+                details.style.display = "none";
+                details.appendChild(description);
+
+                if (job.requirements) {
+                    const requirements = document.createElement("p");
+                    requirements.textContent =
+                        "Requirements: " + job.requirements;
+                    details.appendChild(requirements);
+                }
+
+                if (job.application_details) {
+                    const application = document.createElement("p");
+                    application.textContent =
+                        "How to apply: " + job.application_details;
+                    details.appendChild(application);
+                }
+
+                const button = document.createElement("button");
+                button.className = "btn btn-primary";
+                button.textContent = "View Details";
+
+                button.addEventListener("click", () => {
+                    const isHidden = details.style.display === "none";
+                    details.style.display = isHidden ? "block" : "none";
+                    button.textContent = isHidden ? "Hide Details" : "View Details";
+                });
+
+                const box = document.createElement("div");
+                box.className = "card h-100 p-4";
+                const whatsappButton = document.createElement("a");
+whatsappButton.href = "https://wa.me/380993035879";
+whatsappButton.target = "_blank";
+whatsappButton.rel = "noopener noreferrer";
+whatsappButton.className = "btn btn-success mt-3";
+whatsappButton.textContent = "Contact on WhatsApp";
+box.appendChild(whatsappButton);
+
+                box.append(title, location, salary, type, button, details);
+box.appendChild(whatsappButton);
+                card.appendChild(box);
+                jobsContainer.appendChild(card);
+            });
+
+        } catch (error) {
+            console.error("Error loading jobs:", error);
+            jobsContainer.textContent =
+                "Unable to load jobs right now. Please try again later.";
+        }
+    }
+
+    loadJobs();
+</script>
+
+</body>
+</html>
